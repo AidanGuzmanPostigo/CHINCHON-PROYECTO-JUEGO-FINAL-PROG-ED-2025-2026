@@ -1,5 +1,7 @@
 # PROYECTO FINAL DE CURSO 2025/2026 - CHINCHÓN
 
+![ChinchonEjemplo](../assets/img-1.png)
+
 ## Explicación conceptual del proyecto
 
 El proyecto consiste en la realización de un programa en el que se pueda jugar al juego de cartas "Chinchón" (también conocido como "Mono"), que consiste en lo siguiente:
@@ -29,3 +31,51 @@ El juego tiene muchas variantes, para este proyecto se han definido las siguient
 - Si algún jugador cierra con chinchón la partida termina y ese jugador gana.
 
 - Para poder cerrar, si no has combinado las 7 cartas, la que te sobre debe valer 5 o menos y, al cerrar no puedes pasarte de los puntos.
+
+## Estructura del proyecto
+
+La estructura del proyecto es la siguiente.
+
+- Carpeta assets: Contiene imágenes y capturas del código fuente.
+
+- Carpeta docs: Contiene el README.md y el UML del proyecto.
+
+- Carpeta src: Contiene el código fuente del proyecto, separado en los paquetes app y dominio completamente documentado mediante JavaDoc.
+
+- Carpeta tests: Contiene pruebas unitarias (JUnit) para las clases Entity.java, FactoryEntity.java y Game.java completamente documentado mediante JavaDoc.
+
+- Paquete app: Contiene las clases ConsoleInput.java, Game.java, Main.java y Menu.java y la interfaz IGame.java.
+
+- Paquete dominio: Contiene las clases Cpu.java, Deck.java, Entity.java, FactoryEntity.java, los enums CardType.java y Suit.java, el record Card.java y las interfaces ICpu.java, IDeck.java y IEntity.java.
+
+## Funcionamiento del programa
+
+Para saber el funcionamiento del programa, dentro del código fuente y de las clases, se encuentra toda la documentación que explica el mismo.
+
+## Arquitectura del programa / Diagrama de clases (UML)
+
+## Pruebas unitarias aplicadas (JUnit)
+
+## Patrones de diseño aplicados al juego
+
+En el proyecto se han aplicado los siguientes patrones de diseño:
+
+- Patrón Singleton:
+
+    He aplicado este patrón 2 veces en el proyecto:
+
+    - ConsoleInput: Ya que quería que solo existiese una única instancia de esta clase, sobre todo por el uso del Scanner como recurso.
+
+    ![ConsoleInputSingleton](../assets/img-2.png)
+
+    - Menu: De manera similar, solo quería que existiese una única instancia de esta clase, ya que no he considerado necesario que hubiese más de una.
+
+    ![MenuSingleton](../assets/img-3.png)
+
+- Patrón Factory:
+
+    He aplicado este patrón 1 vez en el proyecto:
+
+    - FactoryEntity: Esto ha sido así ya que es la única herencia del proyecto y se puede utilizar de una manera muy simple al pedirle al usuario un 1 o un 2 y, dependiendo de eso que la entidad creada sea una entidad simplpe (jugador) o una Cpu.
+
+    ![FactoryEntityFactory](../assets/img-4.png)

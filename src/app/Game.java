@@ -80,7 +80,7 @@ public class Game implements IGame {
 						do {
 							switch (m.closeMenu(e.showHand())) {
 							case 1 -> {
-								d.addCardToDiscardPile(e.discard((m.discardCardMenu(1, e.getHand().size(), e.showHand()))));
+								d.addCardToDiscardPile(e.discard((m.discardCardMenu(e.getHand().size(), e.showHand()))));
 								validTurn = true;
 							}
 							case 2 -> {
@@ -136,7 +136,7 @@ public class Game implements IGame {
 		if (player.combinate(combination)) {
 			switch (player.getHand().size()) {
 			case 1,2 -> {
-				player.discard(m.closeCardMenu(1, player.getHand().size(), player.showHand()));
+				player.discard(m.closeCardMenu(player.getHand().size(), player.showHand()));
 				if (player.getHand().size()==1 && player.getHand().get(0).number().getValue()>5) {
 					if ((player.getHand().get(0).number().getValue() + player.getPuntuation())>=maxPoints) {
 						m.maxPointsClose();
@@ -208,8 +208,8 @@ public class Game implements IGame {
 	private void updatePlayers() {
 		players = players.stream()
 		.peek(e -> e.updatePuntuation())
-		.filter(e -> e.getPuntuation()<maxPoints)
 		.peek(System.out::println)
+		.filter(e -> e.getPuntuation()<maxPoints)
 		.collect(Collectors.toList());
 	}
 	private boolean isNicknameAvailable(String nickname, List<IEntity> aux) {

@@ -3,13 +3,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+/**
+ * Clase encargada de la gestión de la baraja
+ */
 public class Deck implements IDeck{
 	private List<Card> cardsInDeck;
 	private List<Card> discardPile;
+	/**
+	 * Constructor de la clase, inicializa la lista de la baraja principal y la de la pila de descartes.
+	 */
 	public Deck () {
 		cardsInDeck = new ArrayList<>();
 		discardPile = new ArrayList<>();
 	}
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public void start(int numberOfPlayers) {
 		CardType ct;
@@ -46,6 +55,9 @@ public class Deck implements IDeck{
 		}
 		shuffle();
 	}
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public Card drawFromPrincipalDeck() {
 		Card c;
@@ -56,22 +68,33 @@ public class Deck implements IDeck{
 		cardsInDeck.remove(0);
 		return c;
 	}
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public Card drawFromDiscardPile() {
 		Card c = discardPile.get(discardPile.size()-1);
 		discardPile.remove(discardPile.size()-1);
 		return c;
 	}
-	@Override
-	public void addCardToPrincipalDeck(Card ... c) {
+	/**
+	 * Añade una o varias cartas al mazo principal.
+	 * @param c Una o más cartas que se añadirán al mazo.
+	 */
+	private void addCardToPrincipalDeck(Card ... c) {
 		cardsInDeck.addAll(Arrays.asList(c));
 	}
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public void addCardToDiscardPile(Card c) {
 		discardPile.add(c);
 	}
-	@Override
-	public void shuffle() {
+	/**
+	 * Método que baraja la baraja, si ocurre a mitad de la ronda garantiza que no se pierda la carta boca arriba de la pila de descartes.
+	 */
+	private void shuffle() {
 		Card c;
 		if (discardPile.size() != 0) {
 			c = discardPile.get(discardPile.size()-1);
@@ -82,10 +105,16 @@ public class Deck implements IDeck{
 		}
 		Collections.shuffle(cardsInDeck);
 	}
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public List<Card> getCardsInDeck() {
 		return cardsInDeck;
 	}
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public List<Card> getDiscardPile() {
 		return discardPile;

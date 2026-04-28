@@ -7,14 +7,14 @@ public class ConsoleInput {
 	private ConsoleInput() {
 		keyboard = new Scanner(System.in);
 	}
-	private void cleanInput() {
-		keyboard.nextLine();
-	}
 	public static ConsoleInput getInstance() {
 		if (instance == null) {
 			instance = new ConsoleInput();
 		}
 		return instance;
+	}
+	private void cleanInput() {
+		keyboard.nextLine();
 	}
 	public void close() {
 		keyboard.close();
