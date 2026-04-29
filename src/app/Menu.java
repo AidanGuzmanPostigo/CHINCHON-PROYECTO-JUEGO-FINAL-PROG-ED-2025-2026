@@ -100,7 +100,7 @@ public class Menu{
 	 * @return Posición de la carta a descartar.
 	 */
 	public int discardCardMenu(int max, String hand) {
-		return ci.readIntInRange(1, max, String.format("Elige la carta de la mano a descartar (%s-%s)%s", 1,max,hand))-1;
+		return ci.readIntInRange(1, max, String.format("Elige la carta de la mano a descartar (%s-%s)\n%s", 1,max,hand))-1;
 	}
 	/**
 	 * Pregunta por el índice de la carta que se usa para cerrar (empezando por 1) y luego le resta -1.
@@ -150,5 +150,13 @@ public class Menu{
 	 */
 	public void maxPointsClose() {
 		ci.writeError("No puedes cerrar porque llegas al máximo de puntos");
+	}
+	/**
+	 * Simula una limpieza de consola para iniciar el turno de la siguiente entidad.
+	 */
+	public void cleanConsoleForNewTurn() {
+		for (int i = 1; i<=50;i++) {
+			ci.writeLine("");
+		}
 	}
 }

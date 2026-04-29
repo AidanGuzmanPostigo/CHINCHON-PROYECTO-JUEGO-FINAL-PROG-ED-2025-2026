@@ -247,8 +247,21 @@ public class Entity implements IEntity{
 		puntuation += calculatePuntuation();
 		return puntuation;
 	}
+	/**
+	 * Orena las cartas de la mano.
+	 */
 	private void orderHand() {
 		Collections.sort(hand);
+	}
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public boolean isChinchon() {
+		if (allAreSameSuit(temporal, temporal.get(0).suit()) && temporal.size() == 7) {
+			return true;
+		}
+		return false;
 	}
 	/**
 	 * @inheritDoc

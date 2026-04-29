@@ -54,4 +54,9 @@ public interface IEntity {
 	 * Añade las cartas de temporal a la mano y limpia temporal.
 	 */
 	void restartCombinations();
+	/**
+	 * Comprueba que la combinación realiza es un chinchon.
+	 * @return
+	 */
+	boolean isChinchon();
 }

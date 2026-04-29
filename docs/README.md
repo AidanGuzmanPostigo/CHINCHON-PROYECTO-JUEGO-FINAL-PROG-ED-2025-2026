@@ -50,7 +50,7 @@ La estructura del proyecto es la siguiente.
 
 ## Funcionamiento del programa
 
-[Enlace al índice de la explicación detallada del proyecto](indiceProyecto)
+[Enlace al índice de la explicación detallada del proyecto](indiceProyecto.md)
 
 ## Arquitectura del programa / Diagrama de clases (UML)
 

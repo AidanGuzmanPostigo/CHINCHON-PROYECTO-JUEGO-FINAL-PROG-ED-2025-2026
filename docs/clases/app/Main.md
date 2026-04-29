@@ -30,6 +30,7 @@ Esta clase no tiene ningún constructor.
 		new Main().show();
 	}
     ```
+
 ## Relaciones con otras clases
 
 Esta clase usa la interfaz IGame (clase Game) para permitir el inicio de la partida.

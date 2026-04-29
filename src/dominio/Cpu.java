@@ -1,9 +1,5 @@
 package dominio;
 public class Cpu extends Entity implements ICpu{
-	private static int count = 0;
-	public Cpu () {
-		super(String.format("CPU-%d",++count));
-	}
 	public Cpu(String nickname) {
 		super(nickname);
 	}

@@ -2,6 +2,7 @@ package app;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import dominio.Card;
 import dominio.Deck;
 import dominio.FactoryEntity;
 import dominio.ICpu;
@@ -83,7 +84,6 @@ public class Game implements IGame {
 		cleanHands();
 		d.start(players.size());
 		initialDraw();
-		d.addCardToDiscardPile(d.drawFromPrincipalDeck());
 		do {
 			turn++;
 			for (IEntity e: players) {
@@ -120,6 +120,7 @@ public class Game implements IGame {
 						}while (!validTurn);
 					}
 				}
+				m.cleanConsoleForNewTurn();
 			}
 		} while (!isClosed);
 		if (winnerChinchon == null) {
@@ -139,11 +140,10 @@ public class Game implements IGame {
 				m.specificCaseCombination();
 				player.restartCombinations();
 			}
-			case 1 -> {
-				winnerChinchon = player;
-				return true;
-			}
-			case 2 -> {
+			case 1,2 -> {
+				if (player.isChinchon()) {
+					winnerChinchon = player;
+				}
 				return true;
 			}
 			case 4, 5 -> {
@@ -167,17 +167,7 @@ public class Game implements IGame {
 		if (player.combinate(combination)) {
 			switch (player.getHand().size()) {
 			case 1,2 -> {
-				player.discard(m.closeCardMenu(player.getHand().size(), player.showHand()));
-				if (player.getHand().size()==1 && player.getHand().get(0).number().getValue()>5) {
-					if ((player.getHand().get(0).number().getValue() + player.getPuntuation())>=maxPoints) {
-						m.maxPointsClose();
-					} else {
-						m.closeErrorPuntuation();
-					}
-					player.restartCombinations();
-				} else {
-					return true;
-				}
+				return closePlayerRound(player);
 			}
 			case 0 -> {
 				m.specificCaseCombination();
@@ -205,6 +195,39 @@ public class Game implements IGame {
 			players.stream()
 			.forEach(e -> e.draw(d.drawFromPrincipalDeck()));
 		}
+		d.addCardToDiscardPile(d.drawFromPrincipalDeck());
+	}
+	/**
+	 * Comprueba que el cierre de la ronda es válido.
+	 * @param player Jugador al que se le valida la jugada.
+	 * @return True si la jugada es correcta o false si no.
+	 */
+	private boolean closePlayerRound(IEntity player) {
+		Card aux = player.discard(m.closeCardMenu(player.getHand().size(), player.showHand()));
+		if (player.getHand().size()==1) {
+			if (player.getHand().get(0).number().getValue()>5) {
+				m.closeErrorPuntuation();
+				discardFailed(player,aux);
+				return false;
+			} else if ((player.getHand().get(0).number().getValue() + player.getPuntuation())>=maxPoints){
+				m.maxPointsClose();
+				discardFailed(player,aux);
+				return false;
+			}
+			return true;
+		} 
+		else {
+			return true;
+		}
+	}
+	/**
+	 * Método que devuelve la carta descartada al jugador.
+	 * @param player Jugador al que se le devuelve la carta.
+	 * @param aux Carta devuelta al jugador.
+	 */
+	private void discardFailed(IEntity player, Card aux) {
+		player.draw(aux);
+		player.restartCombinations();
 	}
 	/**
 	 * Limpia las manos de todas las entidades.
