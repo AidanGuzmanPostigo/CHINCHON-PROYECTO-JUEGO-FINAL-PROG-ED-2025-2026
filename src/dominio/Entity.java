@@ -110,7 +110,7 @@ public class Entity implements IEntity{
 		return false;
 	}
 	/**
-	 * Comprueba que la combinación no contiene índices que la mano no tiene.
+	 * Comprueba que la combinación no contiene índices que la mano no tiene o contiene índices repetidos.
 	 * @param combination Cadena de texto con formato X-X-X.
 	 * @return True si la combinación no contiene índices inaccesibles o False si los contiene.
 	 */

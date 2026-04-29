@@ -1,7 +1,7 @@
 package dominio;
 /**
  * Record que almacena una carta de la baraja española.
- * @param number Representación númerica de la carta y valor de la misma(1-7 y 10-12).
+ * @param number Representación númerica de la carta y valor de la misma (1-7 y 10-12).
  * @param suit Representación del símbolo de los palos de la baraja española.
  * @param id Id de la carta para diferenciar cartas con el mismo palo y número.
  */

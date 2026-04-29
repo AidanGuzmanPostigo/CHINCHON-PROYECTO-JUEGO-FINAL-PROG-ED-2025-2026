@@ -43,11 +43,11 @@ public class Menu{
 		return ci.readString("Introduce el mote del jugador.");
 	}
 	/**
-	 * Pregunta la cantidad de puntos en la que se elimina una entidad en la partida.
-	 * @return Número de puntos tope para eliminar una entidad.
+	 * Pregunta la cantidad de puntos en la que se elimina una entidad en la partida, al menos 1.
+	 * @return Número de puntos tope para eliminar una entidad, siempre mayor o igual que 1.
 	 */
 	public int puntuationMenu() {
-		return ci.readInt("Introduce la puntuación máxima para quedar eliminado.");
+		return ci.readIntGreaterOrEqualThan(1, "Introduce la puntuación máxima para quedar eliminado.");
 	}
 	/**
 	 * Menú de inicio del programa, pregunta si se quiere empezar una partida o abandonar el programa.

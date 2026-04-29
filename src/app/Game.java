@@ -7,6 +7,9 @@ import dominio.FactoryEntity;
 import dominio.ICpu;
 import dominio.IDeck;
 import dominio.IEntity;
+/**
+ * Clase encargada del flujo de la partida.
+ */
 public class Game implements IGame {
 	private IDeck d;
 	private List<IEntity> players;
@@ -14,12 +17,18 @@ public class Game implements IGame {
 	private FactoryEntity f;
 	private Menu m;
 	private IEntity winnerChinchon;
+	/**
+	 * Constructor de la clase, inicializa el menú, la factoria de entidades, la lista de jugadores y el mazo.
+	 */
 	public Game() {
 		m = Menu.getInstance();
 		f = new FactoryEntity();
 		players = new ArrayList<>();
 		d = new Deck();
 	}
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public void startConfiguration() {
 		int option = 0;
@@ -33,6 +42,10 @@ public class Game implements IGame {
 			}
 		} while (option != 2);
 	}
+	/**
+	 * Prepara las entidades de la partida, solicitando el número de entidades y los motes sin repetir de los mismos.
+	 * @return Lista de entidades de la partida.
+	 */
 	private List<IEntity> preparePlayers() {
 		List<IEntity> aux =new ArrayList<>();
 		String nickname = "";
@@ -45,6 +58,9 @@ public class Game implements IGame {
 		}
 		return aux;
 	}
+	/**
+	 * Controla el flujo principal de la partida desde el inicio de la ronda 1 hasta el final de la partida.
+	 */
 	private void playableLoop() {
 		do {
 			startRound();
@@ -56,6 +72,9 @@ public class Game implements IGame {
 		} while (players.size() > 1);
 		m.winnerMenu(players.get(0).getNickname());
 	}
+	/**
+	 * Controla el flujo de una ronda.
+	 */
 	private void startRound() {
 		int turn = 0;
 		boolean isClosed = false, validTurn = false;
@@ -107,6 +126,12 @@ public class Game implements IGame {
 			endRound (winner);
 		}
 	}
+	/**
+	 * Valida el primer movimiento de un jugador en la ronda.
+	 * @param combination Cadena de texto con formato X-X-X.
+	 * @param player Entidad a la que se va a validar el movimiento 1.
+	 * @return True si el movimiento es válido o false si no.
+	 */
 	private boolean validateMove1(String combination, IEntity player) {
 		if (player.combinate(combination)) {
 			switch (player.getHand().size()) {
@@ -132,6 +157,12 @@ public class Game implements IGame {
 		}
 		return false;
 	}
+	/**
+	 * Valida el segundo movimiento de un jugador en la ronda.
+	 * @param combination Cadena de texto con formato X-X-X.
+	 * @param player Entidad a la que se va a validar el movimiento 2.
+	 * @return True si el movimiento es válido o false si no.
+	 */
 	private boolean validateMove2(String combination, IEntity player) {
 		if (player.combinate(combination)) {
 			switch (player.getHand().size()) {
@@ -158,19 +189,33 @@ public class Game implements IGame {
 		}
 		return false;
 	}
+	/**
+	 * Limpia la lista de entidades y deja solo a la entidad que ha relizado el chinchon.
+	 * @param e Entidad que ha realizado un chinchon.
+	 */
 	private void endGameWithChinchon(IEntity e) {
 		players.clear();
 		players.add(e);
 	}
+	/**
+	 * Reparte la mano incial a todas las entidades y coloca una carta boca arriba en la pila de descartes.
+	 */
 	private void initialDraw() {
 		for (int i = 1; i<=7;i++) {
 			players.stream()
 			.forEach(e -> e.draw(d.drawFromPrincipalDeck()));
 		}
 	}
+	/**
+	 * Limpia las manos de todas las entidades.
+	 */
 	private void cleanHands() {
 		players.stream().forEach(e -> e.cleanHand());
 	}
+	/**
+	 * Termina la ronda si no ha ocurrido un chinchón, solicita a las entidades que o combinen o terminen su turno.
+	 * @param winner Entidad a la que no se le va a preguntar nada ya que es el ganador de la ronda.
+	 */
 	private void endRound(IEntity winner) {
 		List<IEntity> auxPlayers = new ArrayList<>(players);
 		auxPlayers.remove(winner);
@@ -205,6 +250,9 @@ public class Game implements IGame {
 			}
 		}
 	}
+	/**
+	 * Actualiza y muestra las puntuaciones de las entidades y, en caso de que una entidad haya llegado al límite de puntos la elimina.
+	 */
 	private void updatePlayers() {
 		players = players.stream()
 		.peek(e -> e.updatePuntuation())
@@ -212,6 +260,12 @@ public class Game implements IGame {
 		.filter(e -> e.getPuntuation()<maxPoints)
 		.collect(Collectors.toList());
 	}
+	/**
+	 * Comprueba que un mote no ha sido asignado a una entidad anteriormente creada.
+	 * @param nickname Mote a comprobar.
+	 * @param aux Lista con las entidades de la partida.
+	 * @return True si el mote no ha sido usado con anterioridad o false si lo ha sido.
+	 */
 	private boolean isNicknameAvailable(String nickname, List<IEntity> aux) {
 		return aux.stream()
 				.noneMatch(e -> e.getNickname().equalsIgnoreCase(nickname));

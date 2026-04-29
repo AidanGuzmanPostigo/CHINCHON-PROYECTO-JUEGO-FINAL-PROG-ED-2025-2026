@@ -50,7 +50,7 @@ La estructura del proyecto es la siguiente.
 
 ## Funcionamiento del programa
 
-Para saber el funcionamiento del programa, dentro del código fuente y de las clases, se encuentra toda la documentación que explica el mismo.
+[Enlace al índice de la explicación detallada del proyecto](indiceProyecto)
 
 ## Arquitectura del programa / Diagrama de clases (UML)
 
