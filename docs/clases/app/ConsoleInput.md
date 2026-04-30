@@ -372,3 +372,7 @@ public void close() {
 ## Relaciones con otras clases
 
 Esta clase es usada por la clase Menu para realizar todas las comunicaciones con el usuario, mediante mensajes y menús por defecto.
+
+[Volver al índice de clases](../../indiceProyecto.md)
+
+[Volver al README principal](../../README.md)

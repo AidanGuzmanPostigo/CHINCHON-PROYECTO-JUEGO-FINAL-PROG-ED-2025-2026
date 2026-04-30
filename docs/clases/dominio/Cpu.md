@@ -18,16 +18,10 @@ public Cpu(String nickname) {
 
 ## Métodos
 
-- public IEntity buildEntity: Este método recibe un número y en base a eso devuelve una entidad plana o una Cpu.
-
-    ```java
-    public IEntity buildEntity(int entityTipe, String nickname) {
-		if (entityTipe == 1) {
-			return new Entity(nickname);
-		} else {
-			return new Cpu(nickname);
-		}
-	}
-    ```
-
 ## Relaciones con otras clases
+
+Esta clase extiende a Entidad, implementa la interfaz ICpu (que a su vez esta interfaz extiende la interfaz IEntity), usa el record Card y es usada por la clase Game.
+
+[Volver al índice de clases](../../indiceProyecto.md)
+
+[Volver al README principal](../../README.md)

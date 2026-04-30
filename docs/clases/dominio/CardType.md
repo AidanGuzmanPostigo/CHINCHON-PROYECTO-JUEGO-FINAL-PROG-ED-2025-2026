@@ -6,7 +6,7 @@ Es un enum que representa los valores numéricos de las cartas de la baraja espa
 
 ## Atributos
 
-- int value: Representación númerica de la carta y valor de la misma (1-7 y 10-12).
+- int **value**: Representación númerica de la carta y valor de la misma (1-7 y 10-12).
 
 ## Constantes
 
@@ -54,4 +54,8 @@ CardType(int value){
 
 ## Relaciones con otras clases
 
-Esta clase es usada por el record Card, la clase Deck y la clase Entity.
+Este enum es usado por el record Card, la clase Deck y la clase Entity.
+
+[Volver al índice de clases](../../indiceProyecto.md)
+
+[Volver al README principal](../../README.md)

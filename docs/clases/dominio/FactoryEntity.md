@@ -29,3 +29,7 @@ Esta clase no tiene ningún constructor.
 ## Relaciones con otras clases
 
 Esta clase usa la interfaz IEntity y aquellas clases que la implementan.
+
+[Volver al índice de clases](../../indiceProyecto.md)
+
+[Volver al README principal](../../README.md)

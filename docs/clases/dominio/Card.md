@@ -6,11 +6,11 @@ Es un record que representa una carta de la baraja española.
 
 ## Atributos
 
-- CardType number: Representación númerica de la carta y valor de la misma (1-7 y 10-12).
+- CardType **number**: Representación númerica de la carta y valor de la misma (1-7 y 10-12).
 
-- Suit suit: Representación del símbolo de los palos de la baraja española.
+- Suit **suit**: Representación del símbolo de los palos de la baraja española.
 
-- int id: Id de la carta para diferenciar cartas con el mismo palo y número.
+- int **id**: Id de la carta para diferenciar cartas con el mismo palo y número.
 
 ## Constructor
 
@@ -40,4 +40,8 @@ Este record tiene el constructor por defecto de los records, al que se le pasan 
     ```
 ## Relaciones con otras clases
 
-Esta clase es usada por la clase Entity (y clases que extiendan de esta (Cpu)) y por la clase Deck.
+Este record es usado por la clase Entity (y clases que extiendan de esta (Cpu)), por la clase Deck y por la clase Game.
+
+[Volver al índice de clases](../../indiceProyecto.md)
+
+[Volver al README principal](../../README.md)

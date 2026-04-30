@@ -15,7 +15,7 @@ public interface IDeck {
 	 */
 	Card drawFromDiscardPile();
 	/**
-	 * Devuelve la primera carta del mazo principal.
+	 * Devuelve y elimina del mazo principal la primera carta, si el mazo está vacío al robar se baraja de nuevo.
 	 * @return Primera carta del mazo principal.
 	 */
 	Card drawFromPrincipalDeck();

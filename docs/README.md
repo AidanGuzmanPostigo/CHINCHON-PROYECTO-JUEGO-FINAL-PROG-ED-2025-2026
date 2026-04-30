@@ -36,9 +36,9 @@ El juego tiene muchas variantes, para este proyecto se han definido las siguient
 
 La estructura del proyecto es la siguiente.
 
-- Carpeta assets: Contiene imágenes y capturas del código fuente.
+- Carpeta assets: Contiene imágenes.
 
-- Carpeta docs: Contiene el README.md y el UML del proyecto.
+- Carpeta docs: Contiene el README.md, el UML del proyecto y los archivos .md que explican el funcionamiento de cada clase, así como un índice de estas.
 
 - Carpeta src: Contiene el código fuente del proyecto, separado en los paquetes app y dominio completamente documentado mediante JavaDoc.
 
@@ -66,11 +66,37 @@ En el proyecto se han aplicado los siguientes patrones de diseño:
 
     - ConsoleInput: Ya que quería que solo existiese una única instancia de esta clase, sobre todo por el uso del Scanner como recurso.
 
-    ![ConsoleInputSingleton](../assets/img-2.png)
+        ```java
+        public class ConsoleInput {
+            private Scanner keyboard;
+            private static ConsoleInput instance;
+            private ConsoleInput() {
+                keyboard = new Scanner(System.in);
+            }
+            public static ConsoleInput getInstance() {
+                if (instance == null) {
+                    instance = new ConsoleInput();
+                }
+                return instance;
+            }
+        ```
 
     - Menu: De manera similar, solo quería que existiese una única instancia de esta clase, ya que no he considerado necesario que hubiese más de una.
 
-    ![MenuSingleton](../assets/img-3.png)
+        ```java
+        public class Menu{
+            private ConsoleInput ci;
+            private static Menu instance;
+            private Menu () {
+                this.ci = ConsoleInput.getInstance();
+            }
+            public static Menu getInstance() {
+                if (instance == null) {
+                    instance = new Menu();
+                }
+                return instance;
+            }
+        ```
 
 - Patrón Factory:
 
@@ -78,4 +104,14 @@ En el proyecto se han aplicado los siguientes patrones de diseño:
 
     - FactoryEntity: Esto ha sido así ya que es la única herencia del proyecto y se puede utilizar de una manera muy simple al pedirle al usuario un 1 o un 2 y, dependiendo de eso que la entidad creada sea una entidad simplpe (jugador) o una Cpu.
 
-    ![FactoryEntityFactory](../assets/img-4.png)
+        ```java
+        public class FactoryEntity {
+	        public IEntity buildEntity(int entityTipe, String nickname) {
+		        if (entityTipe == 1) {
+			        return new Entity(nickname);
+		        } else {
+			        return new Cpu(nickname);
+		        }
+	        }
+        }
+        ```

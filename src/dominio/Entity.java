@@ -79,7 +79,7 @@ public class Entity implements IEntity{
 	 * @param combination Cadena de texto con formato X-X-X.
 	 * @return Lista de cartas con los índices de la combinación en base a las cartas de la mano.
 	 */
-	private List<Card>parseCombination(String combination) {
+	protected List<Card>parseCombination(String combination) {
 		String [] aux = combination.split("-");
 		List<Integer> auxIndex = new ArrayList<>();
 		List<Card> cardAux = new ArrayList<>();
@@ -96,7 +96,7 @@ public class Entity implements IEntity{
 	 * @param combination Cadena de texto con formato X-X-X.
 	 * @return True si la combinación es completamente válida o false si no.
 	 */
-	private boolean isCombinationValid(String combination) {
+	protected boolean isCombinationValid(String combination) {
 		if (simpleValidateCombination(combination)) {
 			if (isCombinationClean(combination)) {
 				if (isSameNumber(combination) || isStraight(combination)) {
@@ -110,7 +110,7 @@ public class Entity implements IEntity{
 		return false;
 	}
 	/**
-	 * Comprueba que la combinación no contiene índices que la mano no tiene o contiene índices repetidos.
+	 * Comprueba que la combinación no contiene índices que la mano no tiene o índices repetidos.
 	 * @param combination Cadena de texto con formato X-X-X.
 	 * @return True si la combinación no contiene índices inaccesibles o False si los contiene.
 	 */
@@ -130,11 +130,11 @@ public class Entity implements IEntity{
 		return true;
 	}
 	/**
-	 * Comprueba que todas las cartas de la combinación son del mismo valor numérico-
+	 * Comprueba que todas las cartas de la combinación son del mismo valor numérico.
 	 * @param combination Cadena de texto con formato X-X-X.
 	 * @return True si todas las cartas son del mismo valor numérico o false si no.
 	 */
-	private boolean isSameNumber(String combination) {
+	protected boolean isSameNumber(String combination) {
 		List<Card> aux = parseCombination(combination);
 		int value = aux.get(0).number().getValue();
 		for (int i = 1; i<aux.size();i++) {
@@ -149,7 +149,7 @@ public class Entity implements IEntity{
 	 * @param combination Cadena de texto con formato X-X-X.
 	 * @return True si las combinación forma una escalera o false si no.
 	 */
-	private boolean isStraight(String combination) {
+	protected boolean isStraight(String combination) {
 		List<Card> aux = parseCombination(combination);
 		Collections.sort(aux);
 		Card value = aux.get(0);
@@ -171,7 +171,7 @@ public class Entity implements IEntity{
 	 * @param st Palo que se quiere comrobar.
 	 * @return True si todas las cartas son del mismo palo que st o false si no.
 	 */
-	private boolean allAreSameSuit(List<Card>cards, Suit st) {
+	protected boolean allAreSameSuit(List<Card>cards, Suit st) {
 		for (Card c: cards) {
 			if (c.suit() != st) {
 				return false;
@@ -220,7 +220,7 @@ public class Entity implements IEntity{
 	 * Calcula la puntuación de las cartas de la mano no combinadas, devuelve -10 si no quedan cartas.
 	 * @return puntuación de la ronda.
 	 */
-	private int calculatePuntuation() {
+	protected int calculatePuntuation() {
 		int puntuation = 0;
 		if (hand.size()==0) {
 			return -10;
@@ -250,7 +250,7 @@ public class Entity implements IEntity{
 	/**
 	 * Orena las cartas de la mano.
 	 */
-	private void orderHand() {
+	protected void orderHand() {
 		Collections.sort(hand);
 	}
 	/**

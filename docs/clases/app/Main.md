@@ -34,3 +34,7 @@ Esta clase no tiene ningún constructor.
 ## Relaciones con otras clases
 
 Esta clase usa la interfaz IGame (clase Game) para permitir el inicio de la partida.
+
+[Volver al índice de clases](../../indiceProyecto.md)
+
+[Volver al README principal](../../README.md)

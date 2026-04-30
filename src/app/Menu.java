@@ -112,7 +112,7 @@ public class Menu{
 		return ci.readIntInRange(1, max, String.format("Elige la carta de la mano que vas a usar para cerrar (%s-%s)\n%s", 1,max,hand))-1;
 	}
 	/**
-	 * Menú mostrado a las entidades no ganadoras de una ronda cuando esta ya se ha cerrado pregunta si se quiere combinar cartas de la mano o se desea terminar de combinar.
+	 * Menú mostrado a las entidades no ganadoras de una ronda cuando esta ya se ha cerrado, pregunta si se quiere combinar cartas de la mano o se desea terminar de combinar.
 	 * @param hand Mano formateada de la entidad.
 	 * @return 1 si se quiere realizar una combinación o 2 si se quiere terminar de combinar.
 	 */

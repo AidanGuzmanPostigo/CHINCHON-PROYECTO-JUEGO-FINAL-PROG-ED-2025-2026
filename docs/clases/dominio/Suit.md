@@ -6,7 +6,7 @@ Es un enum que representa los 4 palos de la baraja española.
 
 ## Atributos
 
-- String symbol: Representación del palo de la carta más el color representativo.
+- String **symbol**: Representación del palo de la carta más el color representativo.
 
 ## Constantes
 
@@ -42,4 +42,8 @@ Suit(String simbol){
 
 ## Relaciones con otras clases
 
-Esta clase es usada por el record Card, la clase Deck y la clase Entity.
+Este enum es usado por el record Card, la clase Deck y la clase Entity.
+
+[Volver al índice de clases](../../indiceProyecto.md)
+
+[Volver al README principal](../../README.md)
