@@ -9,10 +9,10 @@ import java.util.Set;
  * Clase encargada de las entidades
  */
 public class Entity implements IEntity{
-	private List<Card> hand;
-	private List<Card> temporal;
-	private String nickname;
-	private int puntuation;
+	protected List<Card> hand;
+	protected List<Card> temporal;
+	protected String nickname;
+	protected int puntuation;
 	/**
 	 * Constructor de la clase, inicializa la mano, temporal, asigna el mote e inicializa la puntuación a 0.
 	 * @param nickname Mote de la entidad.
@@ -114,7 +114,7 @@ public class Entity implements IEntity{
 	 * @param combination Cadena de texto con formato X-X-X.
 	 * @return True si la combinación no contiene índices inaccesibles o False si los contiene.
 	 */
-	private boolean isCombinationClean(String combination) {
+	protected boolean isCombinationClean(String combination) {
 		String [] aux = combination.split("-");
 		Set<Integer> auxList = new HashSet<>();
 		for (String s: aux) {
@@ -184,7 +184,7 @@ public class Entity implements IEntity{
 	 * @param combination Cadena de texto con formato X-X-X.
 	 * @return True si la cadena coincide con el formato o false si no.
 	 */
-	private boolean simpleValidateCombination(String combination) {
+	protected boolean simpleValidateCombination(String combination) {
 		if (combination.matches("^([1-8]-){2,}[1-8]")) {
 			return true;
 		}
@@ -197,6 +197,13 @@ public class Entity implements IEntity{
 	public void draw(Card c) {
 		hand.add(c);
 		orderHand();
+	}
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public void applyMinus10(){
+		puntuation = puntuation-10;
 	}
 	/**
 	 * @inheritDoc
@@ -217,14 +224,11 @@ public class Entity implements IEntity{
 		temporal.clear();
 	}
 	/**
-	 * Calcula la puntuación de las cartas de la mano no combinadas, devuelve -10 si no quedan cartas.
+	 * Calcula la puntuación de las cartas de la mano no combinadas.
 	 * @return puntuación de la ronda.
 	 */
 	protected int calculatePuntuation() {
 		int puntuation = 0;
-		if (hand.size()==0) {
-			return -10;
-		}
 		for (Card c: hand) {
 			puntuation+=c.number().getValue();
 		}

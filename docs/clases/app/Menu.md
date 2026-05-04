@@ -45,7 +45,7 @@ private Menu () {
 
 	```java
 	public int typeOfEntityMenu() {
-		return ci.readInt("Introduce 1 si quieres 1 jugador o 2 si quieres una CPU");
+		return ci.readIntInRange(1,2,"Introduce 1 si quieres 1 jugador o 2 si quieres una CPU");
 	}
 	```
 

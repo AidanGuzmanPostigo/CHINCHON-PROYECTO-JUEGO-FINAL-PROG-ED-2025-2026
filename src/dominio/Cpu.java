@@ -1,17 +1,27 @@
 package dominio;
+
+/**
+ * Clase encargada de la Cpu, es una IA muy simple.
+ */
 public class Cpu extends Entity implements ICpu{
 	public Cpu(String nickname) {
 		super(nickname);
 	}
+	/**
+	 * @inheritDoc
+	 */
 	@Override
-	public int choosePlay(int round, int maxPoints) {
-		/**
-		 * @TODO: Hacer la lógica de la CPU
-		 */
-		return 0;
+	public int chooseWhereDraw(Card discardPileCard) {
+		if (discardPileCard.number().getValue() <= 4) {
+			return 2;
+		}
+		return 1;
 	}
+	/**
+	 * @inheritDoc
+	 */
 	@Override
-	public int choosePlay(int maxPoints) {
-		return 0;
+	public void choosePlayClose() {
 	}
+	
 }

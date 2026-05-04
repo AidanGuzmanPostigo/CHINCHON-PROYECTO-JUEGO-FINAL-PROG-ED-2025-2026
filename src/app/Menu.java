@@ -33,7 +33,7 @@ public class Menu{
 	 * @return 1 si es Jugador o 2 si es Cpu.
 	 */
 	public int typeOfEntityMenu() {
-		return ci.readInt("Introduce 1 si quieres 1 jugador o 2 si quieres una CPU");
+		return ci.readIntInRange(1,2,"Introduce 1 si quieres 1 jugador o 2 si quieres una CPU");
 	}
 	/**
 	 * Pregunta el mote de la entidad.

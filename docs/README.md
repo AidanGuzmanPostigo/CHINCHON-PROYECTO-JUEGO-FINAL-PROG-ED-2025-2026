@@ -42,7 +42,7 @@ La estructura del proyecto es la siguiente.
 
 - Carpeta src: Contiene el código fuente del proyecto, separado en los paquetes app y dominio completamente documentado mediante JavaDoc.
 
-- Carpeta tests: Contiene pruebas unitarias (JUnit) para las clases Entity.java, FactoryEntity.java y Game.java completamente documentado mediante JavaDoc.
+- Carpeta tests: Contiene pruebas unitarias (JUnit) para las clases Entity.java y  FactoryEntity.java.
 
 - Paquete app: Contiene las clases ConsoleInput.java, Game.java, Main.java y Menu.java y la interfaz IGame.java.
 
@@ -55,6 +55,255 @@ La estructura del proyecto es la siguiente.
 ## Arquitectura del programa / Diagrama de clases (UML)
 
 ## Pruebas unitarias aplicadas (JUnit)
+
+Primero, he realizado pruebas unitarias para el método de EntityFactory, que comprueba que el tipo de la clase que devuelve el método es correcto, esta prueba tiene enfoque de caja negra porque solo estamos comprobando que unos parámetros devuelve lo esperado, sin mirar la estructura del código y sin comprobar más requisitos.
+
+```java
+class FactoryEntityParameterizedTest {
+@ParameterizedTest
+@CsvSource({
+    "1, J1, Entity",
+    "1, J2, Entity",
+    "1, J3, Entity",
+    "1, J4, Entity",
+    "2, CPU1, Cpu",
+    "2, CPU2, Cpu",
+    "2, CPU3, Cpu",
+    "2, CPU, Cpu"
+})
+void buildEntityTest(int entityTipe, String nickname, String expected) {
+	FactoryEntity factory = new FactoryEntity();
+	IEntity entityResult = factory.buildEntity(entityTipe, nickname);
+	assertEquals(expected,entityResult.getClass().getSimpleName());
+}
+}
+```
+
+Imagen con las pruebas realizadas:
+
+![ImagenPruebasCorrectasFactoryEntity](../assets/img-2.png)
+
+Para el resto de pruebas unitarias he usado la clase Entity, que es la que contiene los métodos de validación de jugadas, de este modo podemos saber si los métodos están funcionando correctamente, aquí aplicamos un enfoque de caja blanca ya que necesitamos saber los requisitos del programa para las pruebas, como saber que el 7 y el 10 es un salto válido en las escaleras por ejemplo.
+
+La primera prueba de la clase es al método simpleValidate, que valida que la expresión regular introducida por el usuario es válida (comprueba que al menos hay 3 números separados por - y que no hay 9 o dos números juntos).
+
+```java
+@ParameterizedTest
+@CsvSource({
+    "1-2, False",
+    "1-2-3, True",
+    "1-2-3-4-5-6-7-8, True",
+    "1-2-3-4-5-6-7-8-9, False",
+    "9-9-9, False",
+    "8-8-8, True",
+    "7-8-9, False",
+    "1-2-10, False"
+})
+void simpleValidateCombinationTest(String regexForValidation, boolean expected) {
+	Entity e = new Entity("Test");
+	boolean result = e.simpleValidateCombination(regexForValidation);
+	assertEquals(result,expected);
+}
+```
+
+Imagen con el método probado:
+
+![ImagenPruebasCorrectasEntity1](../assets/img-3.png)
+
+La segunda prueba de la clase consiste en verificar el funcionamiento del método que evalúa que los índices introducidos por el usuario no se repiten además de que no haya introducido un índice no existente, como el 9 o 10.
+
+```java
+@ParameterizedTest
+@CsvSource({
+        "1-2, True",
+        "1-2-3, True",
+        "1-2-3-4-5-6-7-8, True",
+        "1-2-3-4-5-6-7-8-9, False",
+        "9-9-9, False",
+        "8-8-8, False",
+        "7-8-9, False",
+        "1-2-10, False"
+    })
+void isCombinationCleanTest(String regexForValidation, boolean expected) {
+	Entity e = new Entity("Test");
+	IDeck d = new Deck();
+	d.start(1);
+	for (int i = 1; i<=8;i++){
+		e.draw(d.drawFromPrincipalDeck());
+	}
+	boolean result = e.isCombinationClean(regexForValidation);
+	assertEquals(result,expected);
+}
+```
+
+![ImagenPruebasCorrectasEntity2](../assets/img-4.png)
+
+
+Este método he querido probarlo en un caso "especial", no siempre van a ser 8 cartas en la mano, esto es solo al cerrar, con la primera combinación, supongamos que al jugador solo le quedan en mano 5 cartas.
+
+```java
+@ParameterizedTest
+@CsvSource({
+    "1-2, True",
+    "1-2-3, True",
+    "1-2-3-4-5-6-7-8, False",
+    "1-2-3-4-5-6-7-8-9, False",
+    "9-9-9, False",
+    "8-8-8, False",
+    "7-8-9, False",
+    "1-2-10, False"
+})
+void isCombinationCleanTestNotFirstMove(String regexForValidation, boolean expected) {
+	Entity e = new Entity("Test");
+	IDeck d = new Deck();
+	d.start(1);
+	for (int i = 1; i<=5;i++){
+		e.draw(d.drawFromPrincipalDeck());
+	}
+	boolean result = e.isCombinationClean(regexForValidation);
+	assertEquals(result,expected);
+}
+```
+
+![ImagenPruebasCorrectasEntity3](../assets/img-5.png)
+
+La siguiente prueba sirve para comprobar que el método que valida que una combinación sea escalera funciona correctamente.
+
+```java
+@ParameterizedTest
+@CsvSource({
+    "1-2, False",
+    "1-2-3, True",
+    "1-2-3-4-5-6-7-8, True",
+    "1-2-3-4-5-6-7-8-9, False",
+    "9-9-9, False",
+    "8-8-8, False",
+    "7-8-9, False",
+    "1-2-10, False"
+})
+void isStraightTest(String regexForValidation, boolean expected) {
+    Entity e = new Entity("Test");
+    boolean result;
+    Suit st = Suit.ORO;
+    CardType ct; 
+    for (int i = 1; i<=8;i++){
+        ct = switch(i) {
+        case 1 -> CardType.UNO;
+        case 2 -> CardType.DOS;
+        case 3 -> CardType.TRES;
+        case 4 -> CardType.CUATRO;
+        case 5 -> CardType.CINCO;
+        case 6 -> CardType.SEIS;
+        case 7 -> CardType.SIETE;
+        case 8 -> CardType.SOTA;
+        default -> CardType.ERROR;
+        };
+        e.draw(new Card(ct,st,i));
+    }
+    if (e.simpleValidateCombination(regexForValidation) && e.isCombinationClean(regexForValidation)) {
+        result = e.isStraight(regexForValidation);
+    } else {
+        result = false;
+    }
+    assertEquals(result,expected);
+}
+```
+
+![ImagenPruebasCorrectasEntity4](../assets/img-6.png)
+
+La siguiente prueba comprueba que la combinación contenga todas las cartas del mismo valor numérico.
+
+```java
+@ParameterizedTest
+@CsvSource({
+    "1-2, False",
+    "1-2-3, True",
+    "1-2-3-4-5-6-7-8, True",
+    "1-2-3-4-5-6-7-8-9, False",
+    "9-9-9, False",
+    "8-8-8, False",
+    "7-8-9, False",
+    "1-2-10, False"
+})
+void isSameNumberTest(String regexForValidation, boolean expected) {
+    Entity e = new Entity("Test");
+    boolean result;
+    for (int i = 1; i<=8;i++){
+        e.draw(new Card(CardType.SIETE,Suit.ESPADAS,i));
+    }
+    if (e.simpleValidateCombination(regexForValidation) && e.isCombinationClean(regexForValidation)) {
+        result = e.isSameNumber(regexForValidation);
+    } else {
+        result = false;
+    }
+    assertEquals(result,expected);
+}
+```
+
+![ImagenPrurebasCorrectasEntity5](../assets/img-7.png)
+
+La siguiente prueba comprueba al completo que una combinación sea válida y que la entidad pueda usarla.
+
+```java
+@ParameterizedTest
+@CsvSource({
+    "1-2, False",
+    "1-2-3-4, True",
+    "5-6-7, True",
+    "5-6-7-8, False",
+    "1-2-3-4-5-6-7-8, False",
+    "1-2-3-4-5-6-7-8-9, False",
+    "9-9-9, False",
+    "8-8-8, False",
+    "7-8-9, False",
+    "1-2-10, False"
+})
+void isCombinationValidTest(String regexForValidation, boolean expected) {
+    Entity e = new Entity("Test");
+    boolean result;
+    for (int i = 1; i<=3;i++) {
+        e.draw(new Card(CardType.SIETE, Suit.ESPADAS,i));
+    }
+    e.draw(new Card(CardType.UNO, Suit.ORO, 1));
+    e.draw(new Card(CardType.DOS, Suit.ORO, 2));
+    e.draw(new Card(CardType.TRES, Suit.ORO, 3));
+    e.draw(new Card(CardType.CUATRO, Suit.ORO, 4));
+    e.draw(new Card(CardType.SOTA, Suit.ORO, 1));
+    result = e.isCombinationValid(regexForValidation);
+    assertEquals(result,expected);
+}
+```
+
+![ImagenPrurebasCorrectasEntity6](../assets/img-8.png)
+
+Por último he realizado una prueba simple para confirmar que, aunque la entidad pueda combinar 8 cartas porque la combinación sea válida, se devuelva false ya que no se puede nunca combinar con 8 cartas.
+
+```java
+@Test
+void isCombinationValidSpecialTest() {
+    Entity e = new Entity("Test");
+    boolean result;
+    CardType ct;
+    for (int i = 1; i<=8;i++) {
+        ct = switch (i) {
+        case 1 -> CardType.UNO;
+        case 2 -> CardType.DOS;
+        case 3 -> CardType.TRES;
+        case 4 -> CardType.CUATRO;
+        case 5 -> CardType.CINCO;
+        case 6 -> CardType.SEIS;
+        case 7 -> CardType.SIETE;
+        case 8 -> CardType.SOTA;
+        default -> CardType.ERROR;
+        };
+        e.draw(new Card(ct, Suit.ESPADAS,i));
+    }
+    result = e.isCombinationValid("1-2-3-4-5-6-7-8");
+    assertEquals(result,false);
+}
+```
+
+![ImagenPruebasCorrectasEntity7](../assets/img-9.png)
 
 ## Patrones de diseño aplicados al juego
 

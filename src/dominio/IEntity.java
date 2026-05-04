@@ -59,4 +59,8 @@ public interface IEntity {
 	 * @return
 	 */
 	boolean isChinchon();
+	/**
+	 * Aplica el -10 al ganador si se ha quedado con 0 cartas al cerrar.
+	 */
+	void applyMinus10();
 }

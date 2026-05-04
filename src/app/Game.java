@@ -90,7 +90,12 @@ public class Game implements IGame {
 				if (!isClosed) {
 					validTurn  = false;
 					if (e instanceof ICpu cpu) {
-						cpu.choosePlay(turn, maxPoints);
+						switch(cpu.chooseWhereDraw(d.getDiscardPile().get(d.getDiscardPile().size()-1))) {
+						case 1 -> cpu.draw(d.drawFromPrincipalDeck());
+						case 2 -> cpu.draw(d.drawFromDiscardPile());
+						}
+						d.addCardToDiscardPile(cpu.discard(cpu.getHand().size()-1));
+						
 					} else {
 						switch (m.optionsMenu(d.getDiscardPile().get(d.getDiscardPile().size()-1).toString(), e.showHand())) {
 						case 1 -> e.draw(d.drawFromPrincipalDeck());
@@ -243,9 +248,12 @@ public class Game implements IGame {
 		List<IEntity> auxPlayers = new ArrayList<>(players);
 		auxPlayers.remove(winner);
 		boolean valid = false;
+		if (winner.getHand().size() == 0) {
+			winner.applyMinus10();
+		}
 		for (IEntity e: auxPlayers) {
 			if (e instanceof ICpu cpu) {
-				cpu.choosePlay(maxPoints);
+				cpu.choosePlayClose();
 			} else {
 				do {
 					valid = false;

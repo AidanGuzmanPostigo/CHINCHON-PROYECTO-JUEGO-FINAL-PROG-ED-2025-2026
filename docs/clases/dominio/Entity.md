@@ -6,13 +6,13 @@ Es la clase que representa a las entidades de la partida.
 
 ## Atributos
 
-- private List<Card> **hand**: Lista de cartas de la mano de la entidad.
+- protected List<Card> **hand**: Lista de cartas de la mano de la entidad.
 
-- private List<Card> **temporal**: Lista de cartas auxiliar que contendrá las combinaciones de cartas hasta que el turno de la entidad termine, se usa para evitar perder cartas al hacer combinaciones erróneas.
+- protected List<Card> **temporal**: Lista de cartas auxiliar que contendrá las combinaciones de cartas hasta que el turno de la entidad termine, se usa para evitar perder cartas al hacer combinaciones erróneas.
 
-- private String **nickname**: Mote de la entidad, debe ser único para cada entidad.
+- protected String **nickname**: Mote de la entidad, debe ser único para cada entidad.
 
-- private int **puntuation**: Puntuación actual de la entidad
+- protected int **puntuation**: Puntuación actual de la entidad
 
 ## Constructor
 
@@ -119,10 +119,10 @@ public Entity(String nickname) {
 	}
 	```
 
-- private boolean isCombinationClean: Comprueba que la combinación no contiene índices que la mano no tiene o índices repetidos.
+- protected boolean isCombinationClean: Comprueba que la combinación no contiene índices que la mano no tiene o índices repetidos.
 
 	```java
-	private boolean isCombinationClean(String combination) {
+	protected boolean isCombinationClean(String combination) {
 		String [] aux = combination.split("-");
 		Set<Integer> auxList = new HashSet<>();
 		for (String s: aux) {
@@ -188,10 +188,10 @@ public Entity(String nickname) {
 	}
 	```
 
-- private boolean simpleValidateCombination: Comprueba que el formato de la combinación es correcto.
+- protected boolean simpleValidateCombination: Comprueba que el formato de la combinación es correcto.
 
 	```java
-	private boolean simpleValidateCombination(String combination) {
+	protected boolean simpleValidateCombination(String combination) {
 		if (combination.matches("^([1-8]-){2,}[1-8]")) {
 			return true;
 		}
@@ -233,9 +233,6 @@ public Entity(String nickname) {
 	```java
 	protected int calculatePuntuation() {
 		int puntuation = 0;
-		if (hand.size()==0) {
-			return -10;
-		}
 		for (Card c: hand) {
 			puntuation+=c.number().getValue();
 		}
@@ -305,6 +302,14 @@ public Entity(String nickname) {
 	```java
 	public String toString() {
 		return String.format("%s - %d", nickname,puntuation);
+	}
+	```
+
+- public void applyMinus10: Aplica el -10 al ganador si se ha quedado con 0 cartas al cerrar.
+
+	```java
+	public void applyMinus10(){
+		puntuation = puntuation-10;
 	}
 	```
 
