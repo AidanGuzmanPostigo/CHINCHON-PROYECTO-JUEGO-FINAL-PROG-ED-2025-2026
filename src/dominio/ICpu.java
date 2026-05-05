@@ -10,4 +10,10 @@ public interface ICpu extends IEntity{
 	 * @return 1 roba del mazo o 2 si roba de la pila de descartes.
 	 */
 	int chooseWhereDraw(Card discardPileCard);
+	/**
+	 * Comprueba que la Cpu puede cerrar.
+	 * @param maxpoints Puntuación límite de la partida.
+	 * @return True si puede cerrar o False si no.
+	 */
+	boolean canClose(int maxpoints);
 }

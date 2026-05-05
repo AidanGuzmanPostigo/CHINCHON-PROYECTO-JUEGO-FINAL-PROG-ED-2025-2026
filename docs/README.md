@@ -54,6 +54,8 @@ La estructura del proyecto es la siguiente.
 
 ## Arquitectura del programa / Diagrama de clases (UML)
 
+![UMLChinchon](/assets/img-10.png)
+
 ## Pruebas unitarias aplicadas (JUnit)
 
 Primero, he realizado pruebas unitarias para el método de EntityFactory, que comprueba que el tipo de la clase que devuelve el método es correcto, esta prueba tiene enfoque de caja negra porque solo estamos comprobando que unos parámetros devuelve lo esperado, sin mirar la estructura del código y sin comprobar más requisitos.

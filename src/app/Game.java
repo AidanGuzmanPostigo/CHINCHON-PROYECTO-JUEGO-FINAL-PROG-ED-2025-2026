@@ -94,7 +94,16 @@ public class Game implements IGame {
 						case 1 -> cpu.draw(d.drawFromPrincipalDeck());
 						case 2 -> cpu.draw(d.drawFromDiscardPile());
 						}
-						d.addCardToDiscardPile(cpu.discard(cpu.getHand().size()-1));
+						if (turn!=1 && cpu.canClose(maxPoints)) {
+							isClosed = true;
+							if (cpu.isChinchon()) {
+								winnerChinchon = cpu;
+							} else {
+								winner = cpu;
+							}
+						} else {
+							d.addCardToDiscardPile(cpu.discard(cpu.getHand().size()-1));
+						}
 						
 					} else {
 						switch (m.optionsMenu(d.getDiscardPile().get(d.getDiscardPile().size()-1).toString(), e.showHand())) {
